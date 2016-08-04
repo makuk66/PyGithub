@@ -144,6 +144,13 @@ class Github(object):
         """
         return self.__requester.oauth_scopes
 
+    @property
+    def api_preview(self):
+        """
+        :type: bool
+        """
+        return self.__requester.__apiPreview
+
     def get_user(self, login=github.GithubObject.NotSet):
         """
         :calls: `GET /users/:user <http://developer.github.com/v3/users>`_ or `GET /user <http://developer.github.com/v3/users>`_
