@@ -512,6 +512,7 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         :rtype: :class:`github.PullRequestMergeStatus.PullRequestMergeStatus`
         """
         assert commit_message is github.GithubObject.NotSet or isinstance(commit_message, (str, unicode)), commit_message
+        assert squash is github.GithubObject.NotSet or isinstance(squash, bool), squash
         post_parameters = dict()
         if commit_message is not github.GithubObject.NotSet:
             post_parameters["commit_message"] = commit_message
