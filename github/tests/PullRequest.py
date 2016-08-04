@@ -110,4 +110,7 @@ class PullRequest(Framework.TestCase):
         self.assertTrue(self.pull.is_merged())
 
     def testMergeWithCommitMessage(self):
-        self.g.get_user().get_repo("PyGithub").get_pull(39).merge("Custom commit message created by PyGithub", True)
+        self.g.get_user().get_repo("PyGithub").get_pull(39).merge("Custom commit message created by PyGithub", squash=True)
+
+    def testMergeWithCommitMessageAndTitle(self):
+        self.g.get_user().get_repo("PyGithub").get_pull(39).merge("Custom commit message created by PyGithub", "Custom commit title created by PyGithub", True)
