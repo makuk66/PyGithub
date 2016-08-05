@@ -285,14 +285,6 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         return self._state.value
 
     @property
-    def squash(self):
-        """
-        :type: bool
-        """
-        self._completeIfNotSet(self._squash)
-        return self._squash.value
-
-    @property
     def title(self):
         """
         :type: string
@@ -563,7 +555,6 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         self._review_comment_url = github.GithubObject.NotSet
         self._review_comments = github.GithubObject.NotSet
         self._review_comments_url = github.GithubObject.NotSet
-        self._squash = github.GithubObject.NotSet
         self._state = github.GithubObject.NotSet
         self._title = github.GithubObject.NotSet
         self._updated_at = github.GithubObject.NotSet
@@ -629,8 +620,6 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
             self._review_comments = self._makeIntAttribute(attributes["review_comments"])
         if "review_comments_url" in attributes:  # pragma no branch
             self._review_comments_url = self._makeStringAttribute(attributes["review_comments_url"])
-        if "squash" in attributes:  # pragma no branch
-            self._squash = self._makeBoolAttribute(attributes["squash"])
         if "state" in attributes:  # pragma no branch
             self._state = self._makeStringAttribute(attributes["state"])
         if "title" in attributes:  # pragma no branch
