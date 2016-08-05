@@ -496,7 +496,6 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         :calls: `GET /repos/:owner/:repo/pulls/:number/merge <http://developer.github.com/v3/pulls>`_
         :rtype: bool
         """
-        github._api_preview = True
         status, headers, data = self._requester.requestJson(
             "GET",
             self.url + "/merge"
