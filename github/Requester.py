@@ -167,6 +167,13 @@ class Requester:
         self.__userAgent = user_agent
         self.__apiPreview = api_preview
 
+    @property
+    def api_preview(self):
+         """
+         :type: bool
+         """
+         return self.__apiPreview
+
     def requestJsonAndCheck(self, verb, url, parameters=None, headers=None, input=None, cnx=None):
         return self.__check(*self.requestJson(verb, url, parameters, headers, input, cnx))
 

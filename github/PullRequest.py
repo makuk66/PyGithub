@@ -516,11 +516,16 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         post_parameters = dict()
         if commit_message is not github.GithubObject.NotSet:
             post_parameters["commit_message"] = commit_message
+        # The "squash" and "commit_title" options only take effect in API preview
+        # See https://developer.github.com/changes/2016-04-01-squash-api-preview/
+        # So check for that, and abort if API preview is not set.
+        # Once this API comes out of preview we can remove this.
         if commit_title is not github.GithubObject.NotSet:
+            assert self._requester.api_preview, "commit_title requires API preview; pass api_preview=True to the Github constructor"
             post_parameters["commit_title"] = commit_title
         if squash is not github.GithubObject.NotSet:
+            assert self._requester.api_preview, "squash merge requires API preview; pass api_preview=True to the Github constructor"
             post_parameters["squash"] = squash
-        github.api_preview = True
         headers, data = self._requester.requestJsonAndCheck(
             "PUT",
             self.url + "/merge",
