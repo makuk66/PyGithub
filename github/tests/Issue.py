@@ -7,7 +7,8 @@
 # Copyright 2013 Stuart Glaser <stuglaser@gmail.com>                           #
 # Copyright 2013 Vincent Jacques <vincent@vincent-jacques.net>                 #
 #                                                                              #
-# This file is part of PyGithub. http://jacquev6.github.com/PyGithub/          #
+# This file is part of PyGithub.                                               #
+# http://pygithub.github.io/PyGithub/v1/index.html                             #
 #                                                                              #
 # PyGithub is free software: you can redistribute it and/or modify it under    #
 # the terms of the GNU Lesser General Public License as published by the Free  #
@@ -86,6 +87,9 @@ class Issue(Framework.TestCase):
 
     def testGetComments(self):
         self.assertListKeyEqual(self.issue.get_comments(), lambda c: c.user.login, ["jacquev6", "roskakori"])
+
+    def testGetCommentsSince(self):
+        self.assertListKeyEqual(self.issue.get_comments(datetime.datetime(2012, 5, 26, 13, 59, 33)), lambda c: c.user.login, ["jacquev6", "roskakori"])
 
     def testGetEvents(self):
         self.assertListKeyEqual(self.issue.get_events(), lambda e: e.id, [15819975, 15820048])
