@@ -168,6 +168,13 @@ class Requester:
         self.__userAgent = user_agent
         self.__apiPreview = api_preview
 
+    @property
+    def api_preview(self):
+         """
+         :type: bool
+         """
+         return self.__apiPreview
+
     def requestJsonAndCheck(self, verb, url, parameters=None, headers=None, input=None, cnx=None):
         return self.__check(*self.requestJson(verb, url, parameters, headers, input, cnx))
 
@@ -209,7 +216,6 @@ class Requester:
     def requestJson(self, verb, url, parameters=None, headers=None, input=None, cnx=None):
         def encode(input):
             return "application/json", json.dumps(input)
-
         return self.__requestEncode(cnx, verb, url, parameters, headers, input, encode)
 
     def requestMultipart(self, verb, url, parameters=None, headers=None, input=None):
@@ -238,7 +244,7 @@ class Requester:
         self.__authenticate(url, requestHeaders, parameters)
         requestHeaders["User-Agent"] = self.__userAgent
         if self.__apiPreview:
-            requestHeaders["Accept"] = "application/vnd.github.moondragon+json"
+            requestHeaders["Accept"] = "application/vnd.github.polaris-preview+json"
 
         url = self.__makeAbsoluteUrl(url)
         url = self.__addParametersToUrl(url, parameters)

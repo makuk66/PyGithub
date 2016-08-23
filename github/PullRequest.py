@@ -495,16 +495,29 @@ class PullRequest(github.GithubObject.CompletableGithubObject):
         )
         return status == 204
 
-    def merge(self, commit_message=github.GithubObject.NotSet):
+    def merge(self, commit_message=github.GithubObject.NotSet, commit_title=github.GithubObject.NotSet, squash=github.GithubObject.NotSet):
         """
         :calls: `PUT /repos/:owner/:repo/pulls/:number/merge <http://developer.github.com/v3/pulls>`_
         :param commit_message: string
+        :param squash: boolean
         :rtype: :class:`github.PullRequestMergeStatus.PullRequestMergeStatus`
         """
         assert commit_message is github.GithubObject.NotSet or isinstance(commit_message, (str, unicode)), commit_message
+        assert commit_title is github.GithubObject.NotSet or isinstance(commit_title, (str, unicode)), commit_title
+        assert squash is github.GithubObject.NotSet or isinstance(squash, bool), squash
         post_parameters = dict()
         if commit_message is not github.GithubObject.NotSet:
             post_parameters["commit_message"] = commit_message
+        # The "squash" and "commit_title" options only take effect in API preview
+        # See https://developer.github.com/changes/2016-04-01-squash-api-preview/
+        # So check for that, and abort if API preview is not set.
+        # Once this API comes out of preview we can remove this.
+        if commit_title is not github.GithubObject.NotSet:
+            assert self._requester.api_preview, "commit_title requires API preview; pass api_preview=True to the Github constructor"
+            post_parameters["commit_title"] = commit_title
+        if squash is not github.GithubObject.NotSet:
+            assert self._requester.api_preview, "squash merge requires API preview; pass api_preview=True to the Github constructor"
+            post_parameters["squash"] = squash
         headers, data = self._requester.requestJsonAndCheck(
             "PUT",
             self.url + "/merge",
